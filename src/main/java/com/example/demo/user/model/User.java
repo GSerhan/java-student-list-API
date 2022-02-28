@@ -1,21 +1,22 @@
-package com.example.demo.student.model;
+package com.example.demo.user.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
 @Entity
-@Table
-public class Student {
+@Table(name = "users")
+public class User implements Serializable {
     @Id
     @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName = "student_sequence",
+            name = "user_sequence",
+            sequenceName = "user_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "student_sequence"
+            generator = "user_sequence"
     )
     private Long id;
     private String name;
@@ -24,17 +25,17 @@ public class Student {
     @Transient
     private Integer age;
 
-    public Student() {
+    public User() {
     }
 
-    public Student(Long id, String name, String email, LocalDate dob) {
+    public User(Long id, String name, String email, LocalDate dob) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.dob = dob;
     }
 
-    public Student(String name, String email, LocalDate dob) {
+    public User(String name, String email, LocalDate dob) {
         this.name = name;
         this.email = email;
         this.dob = dob;
@@ -82,7 +83,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
+        return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +

@@ -1,7 +1,7 @@
-//package com.example.demo.student;
+//package com.example.demo.user;
 //
-//import com.example.demo.student.model.Student;
-//import com.example.demo.student.repository.StudentRepository;
+//import com.example.demo.user.model.User;
+//import com.example.demo.user.repository.UserRepository;
 //import org.springframework.boot.CommandLineRunner;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
@@ -11,18 +11,18 @@
 //import java.util.List;
 //
 //@Configuration
-//public class StudentConfig {
+//public class UserConfig {
 //
 //    @Bean
-//    CommandLineRunner commandLineRunner(StudentRepository repository) {
+//    CommandLineRunner commandLineRunner(UserRepository repository) {
 //        return args -> {
-//            Student serhan = new Student(
+//            User serhan = new User(
 //                    "Serhan",
 //                    "serhanct@gmail.com",
 //                    LocalDate.of(1993, Month.JULY, 12)
 //            );
 //
-//            Student sibel = new Student(
+//            User sibel = new User(
 //                    "Sibel",
 //                    "sibel@gmail.com",
 //                    LocalDate.of(1997, Month.JUNE, 18)
