@@ -26,13 +26,14 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addNewUser(User user) {
+    public User addNewUser(User user) {
         Optional<User> userOptional = userRepository.findUserByEmail(user.getEmail());
 
         if(userOptional.isPresent()) {
             throw new IllegalStateException("email taken");
         }
         userRepository.save(user);
+        return user;
     }
 
     public void deleteUser(Long userId) {
@@ -49,12 +50,16 @@ public class UserService {
         myList.add(        new User(
                 "Sibel",
                 "sibel@gmail.com",
-                LocalDate.of(1996, Month.JULY, 12)
+                LocalDate.of(1996, Month.JULY, 12),
+                "url",
+                "0737203358"
         ));
         myList.add(        new User(
                 "Serhan",
                 "serhanct@gmail.com",
-                LocalDate.of(1993, Month.JULY, 12)
+                LocalDate.of(1993, Month.JULY, 12),
+                "url",
+                "0737203358"
         ));
 
         return myList;
@@ -65,27 +70,45 @@ public class UserService {
         return new User(
                 "Serhan",
                 "serhanct@gmail.com",
-                LocalDate.of(1993, Month.JULY, 12)
+                LocalDate.of(1993, Month.JULY, 12),
+                "url",
+                "0737203358"
         );
     }
 
     @Transactional
-    public void updateUser(Long userId, String name, String email) {
-
-        User selectedUser = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalStateException("User with id " + userId + " does not exists"));
-
-        if(name != null && !Objects.equals(name,"null") && name.length() > 0 && !Objects.equals(name, selectedUser.getName())) {
-            selectedUser.setName(name);
-        } else {
-            throw new IllegalStateException("name is the same or null");
-        }
-        if(email != null && email.length() > 0 && !Objects.equals(email, selectedUser.getEmail())) {
-            Optional <User> userOptional = userRepository.findUserByEmail(email);
-            if(userOptional.isPresent()) {
-                throw new IllegalStateException("email taken! you should reconsider to change to another email");
-            }
-            selectedUser.setEmail(email);
-        }
+    public User updateUser(User user) {
+        User selectedUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new IllegalStateException("User with id " + user.getId() + " does not exists"));
+        selectedUser.setName(user.getName());
+        selectedUser.setEmail(user.getEmail());
+        selectedUser.setImageUrl(user.getImageUrl());
+        selectedUser.setPhoneNumber(user.getPhoneNumber());
+        return selectedUser;
     }
+
+//    @Transactional
+//    public void updateUser(Long userId, String name, String email, String imageUrl, String phoneNumber) {
+//
+//        User selectedUser = userRepository.findById(userId)
+//                .orElseThrow(() -> new IllegalStateException("User with id " + userId + " does not exists"));
+//
+//        if(name != null && !Objects.equals(name,"null") && name.length() > 0 && !Objects.equals(name, selectedUser.getName())) {
+//            selectedUser.setName(name);
+//        } else {
+//            throw new IllegalStateException("name is the same or null");
+//        }
+//
+//        if(email != null && email.length() > 0 && !Objects.equals(email, selectedUser.getEmail())) {
+//            Optional <User> userOptional = userRepository.findUserByEmail(email);
+//            if(userOptional.isPresent()) {
+//                throw new IllegalStateException("email taken! you should reconsider to change to another email");
+//            }
+//            selectedUser.setEmail(email);
+//        }
+//
+//        selectedUser.setImageUrl(imageUrl);
+//        selectedUser.setPhoneNumber(phoneNumber);
+//    }
+
 }

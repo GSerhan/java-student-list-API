@@ -22,23 +22,46 @@ public class User implements Serializable {
     private String name;
     private String email;
     private LocalDate dob;
+    private String imageUrl;
+    private String phoneNumber;
     @Transient
     private Integer age;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public User() {
     }
 
-    public User(Long id, String name, String email, LocalDate dob) {
+    public User(Long id, String name, String email, LocalDate dob, String imageUrl, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.dob = dob;
+        this.imageUrl = imageUrl;
+        this.phoneNumber = phoneNumber;
     }
 
-    public User(String name, String email, LocalDate dob) {
+    public User(String name, String email, LocalDate dob, String imageUrl, String phoneNumber) {
         this.name = name;
         this.email = email;
         this.dob = dob;
+        this.imageUrl = imageUrl;
+        this.phoneNumber = phoneNumber;
+
     }
 
     public Long getId() {
@@ -58,7 +81,11 @@ public class User implements Serializable {
     }
 
     public Integer getAge() {
-        return Period.between(this.dob, LocalDate.now()).getYears();
+        if(this.dob == null) {
+            return 0;
+        } else {
+            return Period.between(this.dob, LocalDate.now()).getYears();
+        }
     }
 
     public void setAge(Integer age) {
@@ -86,9 +113,11 @@ public class User implements Serializable {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", age=" + age +
-                ", dob=" + dob +
                 ", email='" + email + '\'' +
+                ", dob=" + dob +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", age=" + age +
                 '}';
     }
 }

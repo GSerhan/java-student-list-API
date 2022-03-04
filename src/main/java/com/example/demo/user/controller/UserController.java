@@ -4,12 +4,14 @@ import com.example.demo.user.model.User;
 import com.example.demo.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/users")
+@RequestMapping(path = "api/v1/user")
 public class UserController {
 
     private final UserService userService;
@@ -23,25 +25,32 @@ public class UserController {
         this.myUsers = myUsersFromService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<User> getUsers() {
         return this.userService.getUsers();
     }
 
-    @PostMapping
-    public void registerNewUser(@RequestBody User user) {
-        userService.addNewUser(user);
+    @PostMapping("/add")
+    public User registerNewUser(@RequestBody User user) {
+        return userService.addNewUser(user);
     }
 
-    @DeleteMapping(path = "{userId}")
+    @DeleteMapping(path = "/delete/{userId}")
     public void deleteUser(@PathVariable("userId") Long userId) {
         userService.deleteUser(userId);
     }
 
-    @PutMapping(path = "{userId}")
-    public void updateUser(@PathVariable("userId") Long userId,
-                              @RequestParam(required = false) String name,
-                              @RequestParam(required = false) String email) {
-        userService.updateUser(userId, name, email);
+    @PutMapping(path = "update")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        User updateUser = userService.updateUser(user);
+        return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
+//    public void updateUser(@PathVariable("userId") Long userId,
+//                              @RequestParam(required = false) String name,
+//                              @RequestParam(required = false) String email,
+//                              @RequestParam(required = false) String imageUrl,
+//                              @RequestParam(required = false) String phoneNumber
+//                           ) {
+//        userService.updateUser(userId, name, email, imageUrl, phoneNumber);
+//    }
 }
